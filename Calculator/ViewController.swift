@@ -11,6 +11,7 @@ import UIKit
 class ViewController: UIViewController {
 
     @IBOutlet weak var display: UILabel!
+    @IBOutlet weak var history: UILabel!
     
     
     var userIsInTheMiddleOfTypingANumber = false
@@ -66,6 +67,8 @@ class ViewController: UIViewController {
         userHasTypedDecimalPoint = false
         operandStack.append(displayValue)
         print("operandStack = \(operandStack)")
+        // update history with operand
+        history.text = history.text! + " " + "\(displayValue)"
     }
     
     @IBAction func operate(sender: UIButton) {
@@ -74,6 +77,7 @@ class ViewController: UIViewController {
         if userIsInTheMiddleOfTypingANumber {
             enter()
         }
+        history.text = history.text! + " " + operation
         // whichever operation we want, perform it by popping numbers off the stack
         switch operation {
         case "✕": performOperation { $0 * $1 }
@@ -85,6 +89,7 @@ class ViewController: UIViewController {
         case "cos": performOperation {cos($0)}
         default: break
         }
+        
     }
     
     private func performOperation(operation: (Double, Double) -> Double) {

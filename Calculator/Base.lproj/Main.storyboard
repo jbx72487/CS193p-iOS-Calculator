@@ -352,6 +352,7 @@
                     </view>
                     <connections>
                         <outlet property="display" destination="ZVj-17-enV" id="IVY-Lb-zQz"/>
+                        <outlet property="history" destination="KH5-1j-aUG" id="ma2-uh-dMk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
