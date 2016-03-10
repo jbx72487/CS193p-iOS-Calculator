@@ -50,18 +50,23 @@ class ViewController: UIViewController {
         case "⌫":
             // only work if user is currently typing
             if (userIsInTheMiddleOfTypingANumber) {
-                // if there is a digit to delete, delete that digit
-                if (display.text!.countElements() > 1) {
-                    display.text = dropLast(display.text!)
-                } else if (countElements(display.text!) == 1) {
-                    // if deleting last digit, put 0 there
+                if (display.text!.characters.count == 1 ||
+                    (display.text!.rangeOfString("-") != nil && display.text!.characters.count == 2)) {
+                    // if deleting last digit (pos or neg), put 0 there
                     display.text = "0"
+                } else if (display.text!.characters.count > 1) {
+                    // if there is a digit to delete, delete that digit
+                    display.text = String(display.text!.characters.dropLast())
                 }
             }
         case "+/-":
             if (userIsInTheMiddleOfTypingANumber) {
                 // if user is in middle of typing a number, change the sign and allow typing to continue
-                display.text = "-" + display.text!
+                if (display.text!.rangeOfString("-") == nil) {
+                    display.text = "-" + display.text!
+                } else {
+                    display.text = String(display.text!.characters.dropFirst())
+                }
             } else {
                 // otherwise, perform the unary operation of multiplying by -1
                 performOperation {-1 * $0}
