@@ -117,7 +117,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="✕"/>
                                 <connections>
-                                    <action selector="enter" destination="BYZ-38-t0r" eventType="touchUpInside" id="ptk-bf-sru"/>
                                     <action selector="operate:" destination="BYZ-38-t0r" eventType="touchUpInside" id="S5F-Hg-NMG"/>
                                 </connections>
                             </button>
@@ -126,7 +125,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="÷"/>
                                 <connections>
-                                    <action selector="enter" destination="BYZ-38-t0r" eventType="touchUpInside" id="U9T-9T-gjr"/>
                                     <action selector="operate:" destination="BYZ-38-t0r" eventType="touchUpInside" id="FSH-sH-EDH"/>
                                 </connections>
                             </button>
@@ -135,7 +133,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="+"/>
                                 <connections>
-                                    <action selector="enter" destination="BYZ-38-t0r" eventType="touchUpInside" id="h6O-KZ-omy"/>
                                     <action selector="operate:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rw6-cU-t6n"/>
                                 </connections>
                             </button>
@@ -144,31 +141,30 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="−"/>
                                 <connections>
-                                    <action selector="enter" destination="BYZ-38-t0r" eventType="touchUpInside" id="kFw-7b-haU"/>
                                     <action selector="operate:" destination="BYZ-38-t0r" eventType="touchUpInside" id="U3y-g6-TV7"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Oa-P0-Q0Q">
                                 <rect key="frame" x="469.5" y="74.5" width="102.5" height="123.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <state key="normal" title="sin"/>
                                 <connections>
-                                    <action selector="enter" destination="BYZ-38-t0r" eventType="touchUpInside" id="ZkO-ex-4fx"/>
                                     <action selector="operate:" destination="BYZ-38-t0r" eventType="touchUpInside" id="54h-yS-3nK"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vcc-zk-yXT">
                                 <rect key="frame" x="469.5" y="206" width="102.5" height="123.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <state key="normal" title="cos"/>
                                 <connections>
-                                    <action selector="enter" destination="BYZ-38-t0r" eventType="touchUpInside" id="29N-VF-69l"/>
                                     <action selector="operate:" destination="BYZ-38-t0r" eventType="touchUpInside" id="L3v-dQ-2fk"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y47-Pi-Q2L">
-                                <rect key="frame" x="469.5" y="337.5" width="102.5" height="123"/>
+                                <rect key="frame" x="469.5" y="337.5" width="103" height="123"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <state key="normal" title="pi???"/>
                                 <connections>
-                                    <action selector="enter" destination="BYZ-38-t0r" eventType="touchUpInside" id="DRc-0Y-hvI"/>
                                     <action selector="operate:" destination="BYZ-38-t0r" eventType="touchUpInside" id="A19-J7-8al"/>
                                 </connections>
                             </button>
@@ -177,7 +173,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="√"/>
                                 <connections>
-                                    <action selector="enter" destination="BYZ-38-t0r" eventType="touchUpInside" id="bMY-Wd-X6A"/>
                                     <action selector="operate:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dWh-t1-X1X"/>
                                 </connections>
                             </button>
