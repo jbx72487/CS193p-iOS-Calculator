@@ -15,7 +15,6 @@ class ViewController: UIViewController {
     
     
     var userIsInTheMiddleOfTypingANumber = false
-    var userHasTypedDecimalPoint = false
     
     var operandStack = Array<Double>()
 
@@ -36,18 +35,17 @@ class ViewController: UIViewController {
         let modifier = sender.currentTitle!
         switch modifier {
         case ".":
-            // only respond to "." key if user haven't typed a decimal point yet
-            if (!userHasTypedDecimalPoint) {
+            // only respond to "." key if user hasn't typed a decimal point yet
+            if (display.text!.rangeOfString(".") == nil) {
                 // if user is in middle of typing a number...
                 if (userIsInTheMiddleOfTypingANumber) {
-                    // append a decimal point and add it to display test, and indicate that user has typed a decimal point and has started typing
+                    // append a decimal point and add it to display test, and indicate that user has started typing
                     display.text = display.text! + modifier
                 } else {
                     // if user is not in the middle of typing a number, should add 0.
                     display.text = "0."
                     userIsInTheMiddleOfTypingANumber = true
                 }
-                userHasTypedDecimalPoint = true
             }
         case "pi":
             // if user is in the middle of typing a number, enter that number, and set display to pi and enter pi too
@@ -62,9 +60,8 @@ class ViewController: UIViewController {
     }
     
     @IBAction func enter() {
-        // stop typing number, clear decimal point tracker, add current value to the stack
+        // stop typing number, add current value to the stack
         userIsInTheMiddleOfTypingANumber = false
-        userHasTypedDecimalPoint = false
         operandStack.append(displayValue)
         print("operandStack = \(operandStack)")
         // update history with operand
@@ -125,7 +122,6 @@ class ViewController: UIViewController {
             // set the display value and stop typing
             display.text = "\(newValue)"
             userIsInTheMiddleOfTypingANumber = false
-            userHasTypedDecimalPoint = false
         }
     }
     
