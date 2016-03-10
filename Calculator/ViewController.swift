@@ -47,6 +47,25 @@ class ViewController: UIViewController {
                     userIsInTheMiddleOfTypingANumber = true
                 }
             }
+        case "⌫":
+            // only work if user is currently typing
+            if (userIsInTheMiddleOfTypingANumber) {
+                // if there is a digit to delete, delete that digit
+                if (display.text!.countElements() > 1) {
+                    display.text = dropLast(display.text!)
+                } else if (countElements(display.text!) == 1) {
+                    // if deleting last digit, put 0 there
+                    display.text = "0"
+                }
+            }
+        case "+/-":
+            if (userIsInTheMiddleOfTypingANumber) {
+                // if user is in middle of typing a number, change the sign and allow typing to continue
+                display.text = "-" + display.text!
+            } else {
+                // otherwise, perform the unary operation of multiplying by -1
+                performOperation {-1 * $0}
+            }
         default: break
         }
     }
