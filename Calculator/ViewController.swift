@@ -92,6 +92,16 @@ class ViewController: UIViewController {
         
     }
     
+    @IBAction func clearAll() {
+       // clear history
+        history.text = "History:"
+        // clear stack
+        operandStack = Array<Double>()
+        // clear display
+        displayValue = 0;
+        
+    }
+    
     private func performOperation(operation: (Double, Double) -> Double) {
         // if there are enough operands in the stack, change the displayValue to the result of the operation, and save that value onto the stack
         if operandStack.count >= 2 {
@@ -115,6 +125,7 @@ class ViewController: UIViewController {
             // set the display value and stop typing
             display.text = "\(newValue)"
             userIsInTheMiddleOfTypingANumber = false
+            userHasTypedDecimalPoint = false
         }
     }
     
