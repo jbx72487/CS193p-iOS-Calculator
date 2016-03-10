@@ -47,16 +47,27 @@ class ViewController: UIViewController {
                     userIsInTheMiddleOfTypingANumber = true
                 }
             }
-        case "pi":
-            // if user is in the middle of typing a number, enter that number, and set display to pi and enter pi too
-            if (userIsInTheMiddleOfTypingANumber) {
-                enter()
-            }
-            // if not in the middle of typing a number, set the display to pi and enter pi
-            displayValue = M_PI
-            enter()
         default: break
         }
+    }
+    
+    @IBAction func insertConstant(sender: UIButton) {
+        let constant = sender.currentTitle!
+
+        // if user is in the middle of typing a number, enter that number
+
+        if (userIsInTheMiddleOfTypingANumber) {
+            enter()
+        }
+
+        // set display to constant and enter constant too
+        switch constant {
+        case "pi": displayValue = M_PI
+        default: break
+        }
+        
+        enter()
+
     }
     
     @IBAction func enter() {

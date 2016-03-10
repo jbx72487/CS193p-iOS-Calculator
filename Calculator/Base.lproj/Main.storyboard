@@ -185,7 +185,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="pi"/>
                                 <connections>
-                                    <action selector="modifyNumber:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vKt-tj-IB5"/>
+                                    <action selector="insertConstant:" destination="BYZ-38-t0r" eventType="touchUpInside" id="W0J-dL-hQY"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CwM-TY-1DW">
