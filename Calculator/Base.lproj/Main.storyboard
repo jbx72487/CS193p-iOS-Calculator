@@ -163,8 +163,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y47-Pi-Q2L">
                                 <rect key="frame" x="469.5" y="337.5" width="103" height="123"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                <state key="normal" title="pi???"/>
+                                <state key="normal" title="pi"/>
                                 <connections>
+                                    <action selector="modifyNumber:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4bK-Kl-fgL"/>
                                     <action selector="operate:" destination="BYZ-38-t0r" eventType="touchUpInside" id="A19-J7-8al"/>
                                 </connections>
                             </button>

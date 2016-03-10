@@ -48,6 +48,14 @@ class ViewController: UIViewController {
                 }
                 userHasTypedDecimalPoint = true
             }
+        case "pi":
+            // if user is in the middle of typing a number, enter that number, and set display to pi and enter pi too
+            if (userIsInTheMiddleOfTypingANumber) {
+                enter()
+            }
+            // if not in the middle of typing a number, set the display to pi and enter pi
+            displayValue = 3.14159
+            enter()
         default: break
         }
     }
