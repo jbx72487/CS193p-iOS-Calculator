@@ -12,6 +12,7 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var display: UILabel!
     
+    
     var userIsInTheMiddleOfTypingANumber: Bool = false
 
     @IBAction func appendDigit(sender: UIButton) {
