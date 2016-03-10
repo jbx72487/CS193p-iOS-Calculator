@@ -43,7 +43,7 @@ class ViewController: UIViewController {
                     display.text = display.text! + modifier
                 } else {
                     // if user is not in the middle of typing a number, should add 0.
-                    display.text = "0."
+                    display.text = "0" + modifier
                     userIsInTheMiddleOfTypingANumber = true
                 }
             }
@@ -53,7 +53,7 @@ class ViewController: UIViewController {
                 enter()
             }
             // if not in the middle of typing a number, set the display to pi and enter pi
-            displayValue = 3.14159
+            displayValue = M_PI
             enter()
         default: break
         }
