@@ -9,7 +9,6 @@
 
 //put = on end of UILabel
 //change displayValue to be optional
-//make sure disiplay looks good on all screens
 
 import UIKit
 
@@ -100,10 +99,14 @@ class ViewController: UIViewController {
     }
     
     @IBAction func enter() {
-        // stop typing number, add current value to the stack
-        userIsInTheMiddleOfTypingANumber = false
-        operandStack.append(displayValue)
-        print("operandStack = \(operandStack)")
+        
+        addCurrentValToStack()
+        
+        // if history currently ends in =, remove it
+        if (history.text!.rangeOfString("=") != nil) {
+            history.text = history.text!.substringWithRange(Range<String.Index>(start: history.text!.startIndex, end: history.text!.rangeOfString("=")!.startIndex))
+        }
+
         // update history with operand
         history.text = history.text! + " " + "\(displayValue)"
     }
@@ -114,7 +117,15 @@ class ViewController: UIViewController {
         if userIsInTheMiddleOfTypingANumber {
             enter()
         }
-        history.text = history.text! + " " + operation
+        
+        // if history currently contains =, remove it
+        if (history.text!.rangeOfString("=") != nil) {
+            history.text = history.text!.substringWithRange(Range<String.Index>(start: history.text!.startIndex, end: history.text!.rangeOfString("=")!.startIndex))
+        }
+        
+        // update history and add "="
+        history.text = history.text! + " " + operation + " ="
+        
         // whichever operation we want, perform it by popping numbers off the stack
         switch operation {
         case "✕": performOperation { $0 * $1 }
@@ -126,6 +137,7 @@ class ViewController: UIViewController {
         case "cos": performOperation {cos($0)}
         default: break
         }
+        
         
     }
     
@@ -143,15 +155,22 @@ class ViewController: UIViewController {
         // if there are enough operands in the stack, change the displayValue to the result of the operation, and save that value onto the stack
         if operandStack.count >= 2 {
             displayValue = operation(operandStack.removeLast(), operandStack.removeLast())
-            enter()
+            addCurrentValToStack()
         }
     }
     
     private func performOperation(operation: Double -> Double) {
         if operandStack.count >= 1 {
             displayValue = operation(operandStack.removeLast())
-            enter()
+            addCurrentValToStack()
         }
+    }
+    
+    private func addCurrentValToStack() {
+        // stop typing number, add current value to the stack
+        userIsInTheMiddleOfTypingANumber = false
+        operandStack.append(displayValue)
+        print("operandStack = \(operandStack)")
     }
     
     var displayValue: Double {
