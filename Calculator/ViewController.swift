@@ -6,6 +6,11 @@
 //  Copyright © 2016 Joy Xi. All rights reserved.
 //
 
+
+//put = on end of UILabel
+//change displayValue to be optional
+//make sure disiplay looks good on all screens
+
 import UIKit
 
 class ViewController: UIViewController {
@@ -51,7 +56,7 @@ class ViewController: UIViewController {
             // only work if user is currently typing
             if (userIsInTheMiddleOfTypingANumber) {
                 if (display.text!.characters.count == 1 ||
-                    (display.text!.rangeOfString("-") != nil && display.text!.characters.count == 2)) {
+                    (display.text![display.text!.startIndex] == "-" && display.text!.characters.count == 2)) {
                     // if deleting last digit (pos or neg), put 0 there
                     display.text = "0"
                 } else if (display.text!.characters.count > 1) {
@@ -62,7 +67,7 @@ class ViewController: UIViewController {
         case "+/-":
             if (userIsInTheMiddleOfTypingANumber) {
                 // if user is in middle of typing a number, change the sign and allow typing to continue
-                if (display.text!.rangeOfString("-") == nil) {
+                if (display.text![display.text!.startIndex] != "-") {
                     display.text = "-" + display.text!
                 } else {
                     display.text = String(display.text!.characters.dropFirst())
