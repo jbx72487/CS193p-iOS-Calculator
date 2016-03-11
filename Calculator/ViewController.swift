@@ -7,7 +7,6 @@
 //
 
 
-//put = on end of UILabel
 //change displayValue to be optional
 
 import UIKit
@@ -72,6 +71,7 @@ class ViewController: UIViewController {
             } else {
                 // otherwise, perform the unary operation of multiplying by -1
                 performOperation {-1 * $0}
+                updateHistory(" " + modifier + " =")
             }
         default: break
         }
@@ -100,13 +100,7 @@ class ViewController: UIViewController {
         
         addCurrentValToStack()
         
-        // if history currently ends in =, remove it
-        if (history.text!.rangeOfString("=") != nil) {
-            history.text = history.text!.substringWithRange(Range<String.Index>(start: history.text!.startIndex, end: history.text!.rangeOfString("=")!.startIndex))
-        }
-
-        // update history with operand
-        history.text = history.text! + " " + "\(displayValue)"
+        updateHistory(" \(displayValue!)")
     }
     
     @IBAction func operate(sender: UIButton) {
@@ -116,13 +110,7 @@ class ViewController: UIViewController {
             enter()
         }
         
-        // if history currently contains =, remove it
-        if (history.text!.rangeOfString("=") != nil) {
-            history.text = history.text!.substringWithRange(Range<String.Index>(start: history.text!.startIndex, end: history.text!.rangeOfString("=")!.startIndex))
-        }
-        
-        // update history and add "="
-        history.text = history.text! + " " + operation + " ="
+        updateHistory(" " + operation + " =")
         
         // whichever operation we want, perform it by popping numbers off the stack
         switch operation {
@@ -149,6 +137,16 @@ class ViewController: UIViewController {
         
     }
     
+    private func updateHistory(str: String) {
+        // if history currently contains =, remove it
+        if (history.text!.rangeOfString("=") != nil) {
+            history.text = history.text!.substringWithRange(Range<String.Index>(start: history.text!.startIndex, end: history.text!.rangeOfString("=")!.startIndex))
+        }
+        
+        // update history and add "="
+        history.text = history.text! + str
+    }
+    
     private func performOperation(operation: (Double, Double) -> Double) {
         // if there are enough operands in the stack, change the displayValue to the result of the operation, and save that value onto the stack
         if operandStack.count >= 2 {
@@ -167,17 +165,25 @@ class ViewController: UIViewController {
     private func addCurrentValToStack() {
         // stop typing number, add current value to the stack
         userIsInTheMiddleOfTypingANumber = false
-        operandStack.append(displayValue)
+        operandStack.append(displayValue!)
         print("operandStack = \(operandStack)")
     }
     
-    var displayValue: Double {
+    var displayValue: Double? {
         get {
-            return NSNumberFormatter().numberFromString(display.text!)!.doubleValue
+            if (display.text == nil) {
+                return 0
+            } else {
+                return NSNumberFormatter().numberFromString(display.text!)!.doubleValue
+            }
         }
         set {
             // set the display value and stop typing
-            display.text = "\(newValue)"
+            if (newValue == nil) {
+                display.text = "0"
+            } else {
+                display.text = "\(newValue!)"
+            }
             userIsInTheMiddleOfTypingANumber = false
         }
     }
