@@ -40,16 +40,14 @@ class ViewController: UIViewController {
         switch modifier {
         case ".":
             // only respond to "." key if user hasn't typed a decimal point yet
-            if (display.text!.rangeOfString(".") == nil) {
-                // if user is in middle of typing a number...
-                if (userIsInTheMiddleOfTypingANumber) {
-                    // append a decimal point and add it to display test, and indicate that user has started typing
-                    display.text = display.text! + modifier
-                } else {
-                    // if user is not in the middle of typing a number, should add 0.
-                    display.text = "0" + modifier
-                    userIsInTheMiddleOfTypingANumber = true
-                }
+            if (!userIsInTheMiddleOfTypingANumber) {
+                // if user is not in the middle of typing a number, should add "0."
+                display.text = "0" + modifier
+                userIsInTheMiddleOfTypingANumber = true
+            } else if (display.text!.rangeOfString(".") == nil) {
+                // if user is in middle of typing a number and there aren't decimals in it yet...
+                // append a decimal point and add it to display test, and indicate that user has started typing
+                display.text = display.text! + modifier
             }
         case "⌫":
             // only work if user is currently typing
