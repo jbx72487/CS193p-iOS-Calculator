@@ -19,8 +19,8 @@ class ViewController: UIViewController {
     
     var userIsInTheMiddleOfTypingANumber = false
     
-    var operandStack = Array<Double>()
-
+    var brain = CalculatorBrain() // this is how the controller talks to the model
+    
     @IBAction func appendDigit(sender: UIButton) {
         let digit = sender.currentTitle!
         // print("digit = \(digit)")
@@ -70,8 +70,12 @@ class ViewController: UIViewController {
                 }
             } else {
                 // otherwise, perform the unary operation of multiplying by -1
-                performOperation {-1 * $0}
-                updateHistory(" " + modifier + " =")
+                if let result = brain.performOperation(modifier) {
+                    displayValue = result
+                    updateHistory(" " + modifier + " =")
+                } else {
+                    displayValue = nil
+                }
             }
         default: break
         }
@@ -97,41 +101,37 @@ class ViewController: UIViewController {
     }
     
     @IBAction func enter() {
-        
-        addCurrentValToStack()
+        if let result = brain.pushOperand(displayValue!) {
+            displayValue = result
+        } else {
+            displayValue = nil
+        }
         
         updateHistory(" \(displayValue!)")
     }
     
     @IBAction func operate(sender: UIButton) {
-        let operation = sender.currentTitle!
-        // pressing operate button should implicitly enter whatever user has on screen if we're in middle of typing
         if userIsInTheMiddleOfTypingANumber {
             enter()
         }
-        
-        updateHistory(" " + operation + " =")
-        
-        // whichever operation we want, perform it by popping numbers off the stack
-        switch operation {
-        case "✕": performOperation { $0 * $1 }
-        case "÷": performOperation { $1 / $0 }
-        case "+": performOperation { $0 + $1 }
-        case "−": performOperation { $1 - $0 }
-        case "√": performOperation {sqrt($0)}
-        case "sin": performOperation {sin($0)}
-        case "cos": performOperation {cos($0)}
-        default: break
+        if let operation = sender.currentTitle {
+            // pressing operate button should implicitly enter whatever user has on screen if we're in middle of typing
+
+            if let result = brain.performOperation(operation) {
+                displayValue = result
+                updateHistory(" " + operation + " =")
+            } else {
+                displayValue = nil
+            }
+            // whichever operation we want, perform it by popping numbers off the stack
         }
-        
-        
     }
     
     @IBAction func clearAll() {
        // clear history
         history.text = "History:"
         // clear stack
-        operandStack = Array<Double>()
+        brain = CalculatorBrain()
         // clear display
         displayValue = 0;
         
@@ -147,26 +147,12 @@ class ViewController: UIViewController {
         history.text = history.text! + str
     }
     
-    private func performOperation(operation: (Double, Double) -> Double) {
-        // if there are enough operands in the stack, change the displayValue to the result of the operation, and save that value onto the stack
-        if operandStack.count >= 2 {
-            displayValue = operation(operandStack.removeLast(), operandStack.removeLast())
-            addCurrentValToStack()
-        }
-    }
-    
-    private func performOperation(operation: Double -> Double) {
-        if operandStack.count >= 1 {
-            displayValue = operation(operandStack.removeLast())
-            addCurrentValToStack()
-        }
-    }
-    
+
     private func addCurrentValToStack() {
         // stop typing number, add current value to the stack
         userIsInTheMiddleOfTypingANumber = false
-        operandStack.append(displayValue!)
-        print("operandStack = \(operandStack)")
+        if let _ = brain.pushOperand(displayValue!) {}
+        
     }
     
     var displayValue: Double? {
