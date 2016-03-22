@@ -97,7 +97,7 @@ class CalculatorBrain
         if let operation = knownOps[symbol] {
         // operation here is an optional value, just like anything you're looking up in  a dictionary, because the key you gave it might not be in the dictionary
             opStack.append(operation)
-        }
+        }        
         return evaluate()
     }
 }

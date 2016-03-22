@@ -157,8 +157,8 @@ class ViewController: UIViewController {
     
     var displayValue: Double? {
         get {
-            if (display.text == nil) {
-                return 0
+            if (display.text == "") {
+                return nil
             } else {
                 return NSNumberFormatter().numberFromString(display.text!)!.doubleValue
             }
@@ -166,7 +166,7 @@ class ViewController: UIViewController {
         set {
             // set the display value and stop typing
             if (newValue == nil) {
-                display.text = "0"
+                display.text = ""
             } else {
                 display.text = "\(newValue!)"
             }
