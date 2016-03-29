@@ -140,7 +140,7 @@ class ViewController: UIViewController {
     private func updateHistory(str: String) {
         // if history currently contains =, remove it
         if (history.text!.rangeOfString("=") != nil) {
-            history.text = history.text!.substringWithRange(Range<String.Index>(start: history.text!.startIndex, end: history.text!.rangeOfString("=")!.startIndex))
+            history.text = history.text!.substringWithRange(Range<String.Index>(history.text!.startIndex ..< history.text!.rangeOfString("=")!.startIndex))
         }
         
         // update history and add "="
@@ -157,7 +157,7 @@ class ViewController: UIViewController {
     
     var displayValue: Double? {
         get {
-            if (display.text == "") {
+            if (display.text == " ") {
                 return nil
             } else {
                 return NSNumberFormatter().numberFromString(display.text!)!.doubleValue
@@ -166,7 +166,7 @@ class ViewController: UIViewController {
         set {
             // set the display value and stop typing
             if (newValue == nil) {
-                display.text = ""
+                display.text = " "
             } else {
                 display.text = "\(newValue!)"
             }

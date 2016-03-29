@@ -13,6 +13,7 @@ class CalculatorBrain
     private enum Op : CustomStringConvertible // this enum implements the Printable protocol (or in this version of Swift, CustomStringConvertible), which means it has that read-only computed property called description like the way we have it
     {
         case Operand(Double)
+        case Variable(String)
         case UnaryOperation(String, Double -> Double) // will have a string for name of the operation and a function
         case BinaryOperation(String, (Double, Double) -> Double)
         var description: String {
@@ -21,6 +22,8 @@ class CalculatorBrain
                 switch self {
                 case .Operand(let operand):
                     return "\(operand)"
+                case .Variable(let varName):
+                    return varName
                 case .UnaryOperation(let symbol, _):
                     return symbol
                 case .BinaryOperation(let symbol, _):
@@ -37,6 +40,8 @@ class CalculatorBrain
     // var knownOps = Dictionary<String, Op>()
         // Dictionary where keys are strings, vals are ops
     
+    var variableValues = [String:Double]()
+
     init() {
         func learnOp(op: Op) {
             knownOps[op.description] = op
@@ -62,6 +67,8 @@ class CalculatorBrain
             switch op {
             case .Operand(let operand): // "let operand" means inside the handling of this switch, operand will have the associated value of the operand
                 return (operand, remainingOps)
+            case .Variable(let varName):
+                return (variableValues[varName], remainingOps)
             case .UnaryOperation(_, let operation):
                 let operandEvaluation = evaluate(remainingOps)
                 if let operand = operandEvaluation.result {
@@ -92,6 +99,13 @@ class CalculatorBrain
         opStack.append(Op.Operand(operand))
         return evaluate()
     }
+    
+    func pushOperand(symbol: String) ->Double? {
+        // push symbol onto stack
+        opStack.append(Op.Variable(symbol))
+        return evaluate()
+    }
+    
     
     func performOperation(symbol: String) -> Double? {
         if let operation = knownOps[symbol] {
