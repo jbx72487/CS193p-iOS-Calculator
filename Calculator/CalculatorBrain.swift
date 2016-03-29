@@ -41,6 +41,12 @@ class CalculatorBrain
         // Dictionary where keys are strings, vals are ops
     
     var variableValues = [String:Double]()
+    
+    var description: String {
+        get {
+            
+        }
+    }
 
     init() {
         func learnOp(op: Op) {
