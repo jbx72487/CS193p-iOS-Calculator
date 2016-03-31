@@ -53,6 +53,31 @@ class CalculatorBrain
         }
     }
     
+    init() {
+        func learnOp(op: Op) {
+            knownOps[op.description] = op
+        }
+        
+        learnOp(Op.BinaryOperation("✕", *))
+        // can also write  knownOps["x"] = Op.BinaryOperation("x") {$0 * $1}
+        learnOp(Op.BinaryOperation("÷") {$1 / $0})
+        learnOp(Op.BinaryOperation("+", +))
+        learnOp(Op.BinaryOperation("-") {$1 - $0})
+        learnOp(Op.UnaryOperation("√", sqrt))
+        learnOp(Op.UnaryOperation("sin", sin))
+        learnOp(Op.UnaryOperation("cos") {cos($0)})
+        learnOp(Op.UnaryOperation("+/-") {-1*$0})
+        constantValues["π"] = M_PI
+    }
+    
+    func clearStack() {
+        opStack = [Op]()
+    }
+    
+    func clearVariables() {
+        variableValues = [String:Double]()
+    }
+    
     func describe() -> String {
         // calls on other (recursive) describe function to turn opStack into a String
         var finalDescription = [String]()
@@ -111,23 +136,6 @@ class CalculatorBrain
         return (nil, ops)
     }
 
-    init() {
-        func learnOp(op: Op) {
-            knownOps[op.description] = op
-        }
-        
-        learnOp(Op.BinaryOperation("✕", *))
-        // can also write  knownOps["x"] = Op.BinaryOperation("x") {$0 * $1}
-        learnOp(Op.BinaryOperation("÷") {$1 / $0})
-        learnOp(Op.BinaryOperation("+", +))
-        learnOp(Op.BinaryOperation("-") {$1 - $0})
-        learnOp(Op.UnaryOperation("√", sqrt))
-        learnOp(Op.UnaryOperation("sin", sin))
-        learnOp(Op.UnaryOperation("cos") {cos($0)})
-        learnOp(Op.UnaryOperation("+/-") {-1*$0})
-        constantValues["π"] = M_PI
-    }
-    
     private func evaluate(ops: [Op]) -> (result: Double?, remainingOps: [Op])
     {
         if !ops.isEmpty {
