@@ -109,11 +109,11 @@ class CalculatorBrain
             case .Constant(let constName):
                 return (constName, remainingOps)
             case .Operand(let operand):
-                return ("\(operand)", remainingOps)
+                return (String(format:"%g",operand), remainingOps)
             case .UnaryOperation(let opName, _):
                 let operationDescription = describe(remainingOps)
                 if let operand = operationDescription.result {
-                    return("\(opName)(\(operand))", operationDescription.remainingOps)
+                    return("\(opName)("+"\(operand)"+")", operationDescription.remainingOps)
                 } else {
                     return("\(opName)(?)", operationDescription.remainingOps)
                 }
@@ -123,7 +123,7 @@ class CalculatorBrain
                 if let operand1 = op1Description.result {
                     let op2Description = describe(op1Description.remainingOps)
                     if let operand2 = op2Description.result {
-                        return("(\(operand2))\(opName)(\(operand1))", op2Description.remainingOps)
+                        return("(\(operand1))\(opName)(\(operand2))", op2Description.remainingOps)
                     } else {
                         return("?\(opName)(\(operand1))", op2Description.remainingOps)
                     }

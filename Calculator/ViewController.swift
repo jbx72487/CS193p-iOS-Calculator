@@ -33,7 +33,7 @@ class ViewController: UIViewController {
             if (newValue == nil) {
                 display.text = " "
             } else {
-                display.text = "\(newValue!)"
+                display.text = String(format:"%g",newValue!)
             }
             userIsInTheMiddleOfTypingANumber = false
             updateHistory()
