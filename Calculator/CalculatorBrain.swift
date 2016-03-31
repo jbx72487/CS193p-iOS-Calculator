@@ -44,8 +44,8 @@ class CalculatorBrain
     // var knownOps = Dictionary<String, Op>()
         // Dictionary where keys are strings, vals are ops
     
-    var variableValues = [String:Double]()
-    var constantValues = [String:Double]()
+    private var variableValues = [String:Double]()
+    private var constantValues = [String:Double]()
 
     var description: String {
         get {
@@ -175,6 +175,11 @@ class CalculatorBrain
             print("\(opStack) = \(result!) with \(remainder) left over")
         }
         return result
+    }
+    
+    func setVar(varName: String, varValue: Double?) -> Double? {
+        variableValues[varName] = varValue
+        return evaluate()
     }
     
     func pushOperand(operand: Double) -> Double? {

@@ -13,14 +13,33 @@ import UIKit
 
 class ViewController: UIViewController {
 
+
     @IBOutlet weak var display: UILabel!
     @IBOutlet weak var history: UILabel!
-    
-    
+
     var userIsInTheMiddleOfTypingANumber = false
-    
     var brain = CalculatorBrain() // this is how the controller talks to the model
     
+    var displayValue: Double? {
+        get {
+            if (display.text == " ") {
+                return nil
+            } else {
+                return NSNumberFormatter().numberFromString(display.text!)!.doubleValue
+            }
+        }
+        set {
+            // set the display value and stop typing
+            if (newValue == nil) {
+                display.text = " "
+            } else {
+                display.text = "\(newValue!)"
+            }
+            userIsInTheMiddleOfTypingANumber = false
+            updateHistory()
+        }
+    }
+
     @IBAction func appendDigit(sender: UIButton) {
         let digit = sender.currentTitle!
         // print("digit = \(digit)")
@@ -135,6 +154,21 @@ class ViewController: UIViewController {
         
     }
     
+    
+    @IBAction func setVar() {
+        if let result = brain.setVar("M",varValue: displayValue) {
+            displayValue = result
+        }
+        userIsInTheMiddleOfTypingANumber = false
+    }
+    
+    @IBAction func getVar() {
+        if let result = brain.pushOperand("M") {
+            displayValue = result
+        }
+    }
+    
+    
     private func updateHistory() {
         // update history and add "="
         if brain.description.characters.count > 0 {
@@ -150,26 +184,6 @@ class ViewController: UIViewController {
         userIsInTheMiddleOfTypingANumber = false
         if let _ = brain.pushOperand(displayValue!) {}
         
-    }
-    
-    var displayValue: Double? {
-        get {
-            if (display.text == " ") {
-                return nil
-            } else {
-                return NSNumberFormatter().numberFromString(display.text!)!.doubleValue
-            }
-        }
-        set {
-            // set the display value and stop typing
-            if (newValue == nil) {
-                display.text = " "
-            } else {
-                display.text = "\(newValue!)"
-            }
-            userIsInTheMiddleOfTypingANumber = false
-            updateHistory()
-        }
     }
     
 
