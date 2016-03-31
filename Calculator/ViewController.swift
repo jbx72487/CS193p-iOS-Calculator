@@ -72,7 +72,7 @@ class ViewController: UIViewController {
                 // otherwise, perform the unary operation of multiplying by -1
                 if let result = brain.performOperation(modifier) {
                     displayValue = result
-                    updateHistory(" " + modifier + " =")
+                    updateHistory()
                 } else {
                     displayValue = nil
                 }
@@ -108,7 +108,7 @@ class ViewController: UIViewController {
             displayValue = nil
         }
         userIsInTheMiddleOfTypingANumber = false
-        updateHistory(" \(displayValue!)")
+        updateHistory()
     }
     
     @IBAction func operate(sender: UIButton) {
@@ -120,32 +120,27 @@ class ViewController: UIViewController {
 
             if let result = brain.performOperation(operation) {
                 displayValue = result
-                updateHistory(" " + operation + " =")
             } else {
                 displayValue = nil
             }
+            updateHistory()
             // whichever operation we want, perform it by popping numbers off the stack
         }
     }
     
     @IBAction func clearAll() {
        // clear history
-        history.text = "History:"
+        history.text = " "
         // clear stack
         brain = CalculatorBrain()
         // clear display
-        displayValue = 0;
+        displayValue = nil;
         
     }
     
-    private func updateHistory(str: String) {
-        // if history currently contains =, remove it
-        if (history.text!.rangeOfString("=") != nil) {
-            history.text = history.text!.substringWithRange(Range<String.Index>(history.text!.startIndex ..< history.text!.rangeOfString("=")!.startIndex))
-        }
-        
+    private func updateHistory() {
         // update history and add "="
-        history.text = history.text! + str
+        history.text = brain.description + "="
     }
     
 
