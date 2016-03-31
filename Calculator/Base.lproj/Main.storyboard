@@ -225,9 +225,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ahk-mM-2dS">
                                 <rect key="frame" x="359" y="102" width="102.5" height="91.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                <state key="normal" title="⌫"/>
+                                <state key="normal" title="Undo"/>
                                 <connections>
-                                    <action selector="modifyNumber:" destination="BYZ-38-t0r" eventType="touchUpInside" id="T62-Zq-2kv"/>
+                                    <action selector="undo" destination="BYZ-38-t0r" eventType="touchUpInside" id="U5R-FK-B3P"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vde-cj-Bud">

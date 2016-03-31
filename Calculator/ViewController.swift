@@ -67,18 +67,6 @@ class ViewController: UIViewController {
                 // append a decimal point and add it to display test, and indicate that user has started typing
                 display.text = display.text! + modifier
             }
-        case "⌫":
-            // only work if user is currently typing
-            if (userIsInTheMiddleOfTypingANumber) {
-                if (display.text!.characters.count == 1 ||
-                    (display.text![display.text!.startIndex] == "-" && display.text!.characters.count == 2)) {
-                    // if deleting last digit (pos or neg), put 0 there
-                    display.text = "0"
-                } else if (display.text!.characters.count > 1) {
-                    // if there is a digit to delete, delete that digit
-                    display.text = String(display.text!.characters.dropLast())
-                }
-            }
         case "+/-":
             if (userIsInTheMiddleOfTypingANumber) {
                 // if user is in middle of typing a number, change the sign and allow typing to continue
@@ -119,11 +107,35 @@ class ViewController: UIViewController {
 
     }
     
+    @IBAction func undo() {
+        // if user is currently typing, same as backspace
+        if (userIsInTheMiddleOfTypingANumber) {
+            if (display.text!.characters.count == 1 ||
+                (display.text![display.text!.startIndex] == "-" && display.text!.characters.count == 2)) {
+                // if deleting last digit (pos or neg), put 0 there
+                display.text = "0"
+            } else if (display.text!.characters.count > 1) {
+                // if there is a digit to delete, delete that digit
+                display.text = String(display.text!.characters.dropLast())
+            }
+        } else { // otherwise, undo last action
+            // if last thing was an Op (incl. all operands, operations, +/-, pi), pop that off the stack and reevaluate
+            // if last thing was clear (i.e. opStack is empty), don't do anything
+            // if last thing was enter, that means it was an op
+            // if last thing was undo, keep undoing
+            // in conclusion, if brain is able to do it, drop the last thing in opStack and display new result
+            displayValue = brain.removeLastOp()
+        }
+
+    }
+    
     @IBAction func enter() {
-        if let result = brain.pushOperand(displayValue!) {
-            displayValue = result
+        if let displayVal = displayValue {
+            if let result = brain.pushOperand(displayVal) {
+                displayValue = result
+            }
         } else {
-            displayValue = nil
+                displayValue = nil
         }
         userIsInTheMiddleOfTypingANumber = false
     }

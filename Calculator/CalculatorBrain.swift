@@ -120,7 +120,6 @@ class CalculatorBrain
             (description, remainder) = describe(remainder)
             if let expression = description {
                 finalDescription.insert(expression, atIndex: 0)
-                print("description = \(finalDescription), remainder count = \(remainder.count)")
             }
         }
         return finalDescription.joinWithSeparator(",")
@@ -247,5 +246,14 @@ class CalculatorBrain
         }
         print(describe())
         return evaluate()
+    }
+    
+    func removeLastOp() -> Double? {
+        if !opStack.isEmpty {
+            let _ = opStack.removeLast()
+            return evaluate()
+        } else {
+            return nil
+        }
     }
 }
