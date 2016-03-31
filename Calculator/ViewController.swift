@@ -92,11 +92,12 @@ class ViewController: UIViewController {
 
         // set display to constant and enter constant too
         switch constant {
-        case "pi": displayValue = M_PI
+        case "pi":
+            if let result = brain.pushOperand("π") {
+                displayValue = result
+            }
         default: break
         }
-        
-        enter()
 
     }
     
@@ -106,7 +107,7 @@ class ViewController: UIViewController {
         } else {
             displayValue = nil
         }
-        
+        userIsInTheMiddleOfTypingANumber = false
         updateHistory(" \(displayValue!)")
     }
     
