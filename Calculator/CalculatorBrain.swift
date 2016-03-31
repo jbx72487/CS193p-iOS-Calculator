@@ -35,8 +35,26 @@ class CalculatorBrain
                 }
             }
         }
+        
+        static var precedenceOf = [String:Int]()
+        
+        var precedence: Int {
+            get {
+                switch self {
+                case .Operand, .Variable, .Constant, .UnaryOperation:
+                    return Int.max
+                case .BinaryOperation(let symbol, _):
+                    if let p = Op.precedenceOf[symbol] {
+                        return p
+                    } else {
+                        return Int.max
+                    }
+                }
+            }
+        }
     }
     
+
     private var opStack = [Op]()
     // less preferred syntax: Array<Op>()
     
@@ -58,6 +76,13 @@ class CalculatorBrain
             knownOps[op.description] = op
         }
         
+        func learnPriority(symbol: String, priority: Int) {
+            Op.precedenceOf[symbol] = priority
+        }
+        
+        let highPriority = 10
+        let lowPriority = 5
+        
         learnOp(Op.BinaryOperation("✕", *))
         // can also write  knownOps["x"] = Op.BinaryOperation("x") {$0 * $1}
         learnOp(Op.BinaryOperation("÷") {$1 / $0})
@@ -67,6 +92,12 @@ class CalculatorBrain
         learnOp(Op.UnaryOperation("sin", sin))
         learnOp(Op.UnaryOperation("cos") {cos($0)})
         learnOp(Op.UnaryOperation("+/-") {-1*$0})
+        
+        learnPriority("x", priority: highPriority)
+        learnPriority("÷", priority: highPriority)
+        learnPriority("+", priority: lowPriority)
+        learnPriority("-", priority: lowPriority)
+        
         constantValues["π"] = M_PI
     }
     
@@ -117,15 +148,25 @@ class CalculatorBrain
                 } else {
                     return("\(opName)(?)", operationDescription.remainingOps)
                 }
+            
             // if it's a binary function, display using infix notation
             case .BinaryOperation(let opName, _):
                 let op1Description = describe(remainingOps)
+                
                 if let operand1 = op1Description.result {
                     let op2Description = describe(op1Description.remainingOps)
                     if let operand2 = op2Description.result {
-                        return("(\(operand1))\(opName)(\(operand2))", op2Description.remainingOps)
+                        if remainingOps.count > 2 {
+                            return("(\(operand1))\(opName)(\(operand2))", op2Description.remainingOps)
+                        } else {
+                            return("\(operand1)\(opName)\(operand2)", op2Description.remainingOps)
+                        }
                     } else {
-                        return("?\(opName)(\(operand1))", op2Description.remainingOps)
+                        if remainingOps.count > 1 {
+                            return("?\(opName)(\(operand1))", op2Description.remainingOps)
+                        } else {
+                            return("?\(opName)\(operand1)", op2Description.remainingOps)
+                        }
                     }
                 } else {
                     return("?\(opName)?", op1Description.remainingOps)
