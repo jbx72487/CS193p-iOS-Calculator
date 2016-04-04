@@ -36,6 +36,7 @@ class CalculatorBrain
             }
         }
         
+        
         static var precedenceOf = [String:Int]()
         
         var precedence: Int {
@@ -101,6 +102,38 @@ class CalculatorBrain
         constantValues["π"] = M_PI
     }
     
+    typealias PropertyList = AnyObject
+    var program: PropertyList { // guaranteed to be a PropertyList
+        get {
+            // can't just return opStack because it's an array of enums
+            // instead, we'll return an array of strings
+            /*
+            var returnValue = Array<String>()
+            for op in opStack {
+                returnValue.append(op.description)
+                
+            }
+            return returnValue
+            */
+            
+            return opStack.map{$0.description}
+        }
+        set {
+            // make sure this AnyObject they passed me is actually an array of strings
+            if let opSymbols = newValue as? Array<String> {
+                var newOpStack = [Op]()
+                for opSymbol in opSymbols {
+                    if let op = knownOps[opSymbol] {
+                        newOpStack.append(op)
+                    } else if let operand = NSNumberFormatter().numberFromString(opSymbol)?.doubleValue {
+                        newOpStack.append(.Operand(operand))
+                    }
+                }
+                opStack = newOpStack
+            }
+        }
+    }
+    
     func clearStack() {
         opStack = [Op]()
     }
@@ -156,15 +189,15 @@ class CalculatorBrain
                     let op2Description = describe(op1Description.remainingOps)
                     if let operand2 = op2Description.result {
                         if remainingOps.count > 2 {
-                            return("(\(operand1))\(opName)(\(operand2))", op2Description.remainingOps)
+                            return("(\(operand2))\(opName)(\(operand1))", op2Description.remainingOps)
                         } else {
-                            return("\(operand1)\(opName)\(operand2)", op2Description.remainingOps)
+                            return("\(operand2)\(opName)\(operand1)", op2Description.remainingOps)
                         }
                     } else {
                         if remainingOps.count > 1 {
-                            return("?\(opName)(\(operand1))", op2Description.remainingOps)
+                            return("(\(operand1))\(opName)?", op2Description.remainingOps)
                         } else {
-                            return("?\(opName)\(operand1)", op2Description.remainingOps)
+                            return("\(operand1)\(opName)?", op2Description.remainingOps)
                         }
                     }
                 } else {
