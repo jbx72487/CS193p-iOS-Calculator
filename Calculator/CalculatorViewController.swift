@@ -198,6 +198,24 @@ class CalculatorViewController: UIViewController {
         
     }
     
-
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        var destination:UIViewController? = segue.destinationViewController
+        if let navCon = destination as? UINavigationController {
+            destination = navCon.visibleViewController
+        }
+        if let gvc = destination as? GraphingViewController {
+            if let identifier = segue.identifier {
+                switch identifier {
+                case "Generate Graph":
+                    gvc.program = brain.program
+                    // TODO anything else?
+                default: break
+                }
+            }
+        }
+    }
 }
+    
+
+
 
