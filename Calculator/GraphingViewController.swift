@@ -37,13 +37,11 @@ class GraphingViewController: UIViewController, GraphViewDataSource {
     func yForX(sender: GraphView, x: CGFloat) -> CGFloat? {
     // in program, replace variable M with x value
         // evaluate at that x value and return the outcome
-        return CGFloat(0.0)
+        return x
     }
 
     
     // func updateUI, to be called each time the Graph button is pressed
-
-    
     func updateUI() {
         graphView.setNeedsDisplay()
     }

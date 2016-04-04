@@ -55,19 +55,50 @@ class GraphView: UIView {
         if (pointsPerUnit == 0) {
             pointsPerUnit = 50.0
         }
+        
+        // TODO wtf why do i need this?
+        if (scale == 0) {
+            scale = 1
+        }
 
         // make an axesDrawer object with the current scale factor etc
         let axesDrawer = AxesDrawer(color: UIColor.blackColor(),contentScaleFactor: contentScaleFactor)
         
         // draw axes
         axesDrawer.drawAxesInRect(bounds, origin: origin!, pointsPerUnit: pointsPerUnit)
+
+        // graph the function
+        plot()
+
     }
     
-    // use GraphingViewController as a delegate to get data using yForX
-    // loop through x pixels from end to end on the shown axes
-    // if let y = dataSource?.yForX(self, x), then graph it (if drawing, addLineToPoint, if not, just move there). otherwise stop drawing
+    func plot() {
+        let minXPoint = bounds.minX
+        let maxXPoint = bounds.maxX
+        var lastPointValid = false
+        let path = UIBezierPath()
+
+        // TODO how to loop through x PIXELS  from end to end on the shown axes
+        for var xPoint = minXPoint; xPoint <= maxXPoint; xPoint += 1 {
+            let xValue = (xPoint - origin!.x) / pointsPerUnit
+            // use GraphingViewController as a delegate to get data using yForX
+            // if let y = dataSource?.yForX(self, x), then graph it (if drawing, addLineToPoint, if not, just move there). otherwise stop drawing
+            if let yValue = dataSource?.yForX(self, x: xValue) {
+                let yPoint = origin!.y - yValue * pointsPerUnit // subtraction because points increase top to bottom, values decrease top to bottom
+                if lastPointValid {
+                    print("plotting (\(xValue),\(yValue)) at \(xPoint),\(yPoint)")
+                    path.addLineToPoint(CGPoint(x: xPoint, y: yPoint))
+                } else {
+                    path.moveToPoint(CGPoint(x: xPoint, y: yPoint))
+                }
+                lastPointValid = true
+            } else {
+                lastPointValid = false
+            }
+        }
+        path.stroke()
+    }
     
-    // graph a function
     
     // draw the description of the function on screen (ex. sin(M))
 
@@ -105,9 +136,6 @@ class GraphView: UIView {
         default: break
         }
     }
-    
-    
-    
 }
 
 // 3. graph the program that's in MVC at that time of graphing button
